@@ -26,8 +26,13 @@ bin-worker-gpu:
 bin-worker-amd:
   $GC $GIT_ROOT/bin-worker-amd.git  $FILE_BIN
   
-## get the lotus snap
+## make the snap
 snap:
+  $SC $FILE_SCR/lotus.env &&\
+  lotus chain export --recent-stateroots 900 --skip-old-msgs $FILE_ROOT/snap/new.car
+
+## setup the lotus from snap
+lotus-snap:
   $BS $FILE_SCR/snap.sh &&\
   $SC $FILE_SCR/lotus.env &&\
   lotus daemon --import-snapshot=$FILE_ROOT/snap/new.car > $FILE_LOG/lotus.log 2>&1 & 
