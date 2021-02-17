@@ -1,0 +1,7 @@
+FILE_ROOT=/filecoin
+FILE_SNAP=$FILE_ROOT/snap
+
+SC_IP=
+SC_FILE=$SC_IP:$FILE_SNAP/new.car
+
+scp $SC_FILE $FILE_SNAP/
