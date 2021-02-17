@@ -1,30 +1,41 @@
 ## insturction
 SC:=source
 BS:=bash
+GC:=git clone 
 
 ## dir
 FILE_ROOT=../filecoin
 FILE_SCR=$FILE_ROOT/script
 FILE_BIN=$FILE_ROOT/bin
+FILE_LOG=$FILE_ROOT/log
+
+GIT_ROOT=https://github.com/FILkaogudui
 
 
 .PHONY:
 ## get the lotus && miner bin
-lotus-bin:
-  wget -c -O 
+bin-lotus:
+  $GC $GIT_ROOT/bin-lotus.git  $FILE_BIN
+  $GC $GIT_ROOT/bin-miner.git  $FILE_BIN
   
-## get the worker bin
-worker-bin:
-  wget -c -O 
+## get the gpu worker bin
+bin-worker-gpu:
+  $GC $GIT_ROOT/bin-worker-gpu.git  $FILE_BIN
+  
+## get the amd worker bin 
+bin-worker-amd:
+  $GC $GIT_ROOT/bin-worker-amd.git  $FILE_BIN
   
 ## get the lotus snap
 snap:
-  wget -c -O 
+  $BS $FILE_SCR/snap.sh &&\
+  $SC $FILE_SCR/lotus.env &&\
+  lotus daemon --import-snapshot=$FILE_ROOT/snap/new.car > $FILE_LOG/lotus.log 2>&1 & 
   
 ## setup the lotus
 lotus:
   $SC $FILE_SCR/lotus.env &&\
-  lotus daemon
+  lotus daemon > $FILE_LOG/lotus.log 2>&1 & 
   
 ## setup the miner
 miner:
